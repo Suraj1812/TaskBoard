@@ -1,0 +1,6 @@
+{
+  "name": "TaskBoard - Jira Kanban Board Clone",
+  "description": "High-fidelity agile Kanban task board with smooth drag-and-drop, color-coded taxonomy labels, priority indicators, and sprint workflow metrics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
