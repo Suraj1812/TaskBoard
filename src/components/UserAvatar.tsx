@@ -1,5 +1,23 @@
 import React, { useState } from 'react';
 import { User } from '../types/kanban';
+import leadEngineerAvatar from '../assets/images/avatar_lead_engineer_1791782868399.jpg';
+import productDesignerAvatar from '../assets/images/avatar_product_designer_1791782879990.jpg';
+import backendDevAvatar from '../assets/images/avatar_backend_dev_1791782890789.jpg';
+import qaSpecialistAvatar from '../assets/images/avatar_qa_specialist_1791782902485.jpg';
+
+const USER_AVATAR_MAP: Record<string, string> = {
+  'user-1': leadEngineerAvatar,
+  'user-2': productDesignerAvatar,
+  'user-3': backendDevAvatar,
+  'user-4': qaSpecialistAvatar,
+};
+
+const STATIC_FALLBACK_MAP: Record<string, string> = {
+  'user-1': '/avatars/elena.jpg',
+  'user-2': '/avatars/marcus.jpg',
+  'user-3': '/avatars/aoi.jpg',
+  'user-4': '/avatars/david.jpg',
+};
 
 interface UserAvatarProps {
   user: User | null;
@@ -18,6 +36,7 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({
   isSelected = false,
   onClick,
 }) => {
+  const [useFallback, setUseFallback] = useState(false);
   const [imageError, setImageError] = useState(false);
 
   const sizeClasses = {
@@ -38,6 +57,34 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({
     );
   }
 
+  // Resolve avatar URL with guaranteed Vite bundle imports
+  const getAvatarUrl = (): string | undefined => {
+    if (useFallback && user.id && STATIC_FALLBACK_MAP[user.id]) {
+      return STATIC_FALLBACK_MAP[user.id];
+    }
+    if (user.id && USER_AVATAR_MAP[user.id]) {
+      return USER_AVATAR_MAP[user.id];
+    }
+    if (user.avatarUrl) {
+      if (user.avatarUrl.includes('avatar_lead_engineer') || user.name?.includes('Elena')) return leadEngineerAvatar;
+      if (user.avatarUrl.includes('avatar_product_designer') || user.name?.includes('Marcus')) return productDesignerAvatar;
+      if (user.avatarUrl.includes('avatar_backend_dev') || user.name?.includes('Aoi')) return backendDevAvatar;
+      if (user.avatarUrl.includes('avatar_qa_specialist') || user.name?.includes('David')) return qaSpecialistAvatar;
+      return user.avatarUrl;
+    }
+    return undefined;
+  };
+
+  const currentAvatarSrc = getAvatarUrl();
+
+  const handleImageError = () => {
+    if (!useFallback && user.id && STATIC_FALLBACK_MAP[user.id]) {
+      setUseFallback(true);
+    } else {
+      setImageError(true);
+    }
+  };
+
   const avatarElement = (
     <div
       className={`relative rounded-full overflow-hidden shrink-0 border border-slate-200/80 ${sizeClasses} ${
@@ -45,12 +92,12 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({
       }`}
       title={`${user.name} (${user.role})`}
     >
-      {user.avatarUrl && !imageError ? (
+      {currentAvatarSrc && !imageError ? (
         <img
-          src={user.avatarUrl}
+          src={currentAvatarSrc}
           alt={user.name}
           referrerPolicy="no-referrer"
-          onError={() => setImageError(true)}
+          onError={handleImageError}
           className="w-full h-full object-cover"
         />
       ) : (

@@ -68,7 +68,29 @@ export default function App() {
   const [tasks, setTasks] = useState<Task[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY_TASKS);
-      return saved ? JSON.parse(saved) : INITIAL_TASKS;
+      if (saved) {
+        const parsed: Task[] = JSON.parse(saved);
+        // Hydrate users with current bundled avatar assets
+        return parsed.map((t) => {
+          const matchedAssignee = t.assignee
+            ? INITIAL_USERS.find((u) => u.id === t.assignee?.id) || t.assignee
+            : null;
+          const matchedReporter = (t.reporter && INITIAL_USERS.find((u) => u.id === t.reporter.id))
+            || t.reporter
+            || INITIAL_USERS[0];
+          const matchedTaggedUsers = t.taggedUsers
+            ? t.taggedUsers.map((tu) => INITIAL_USERS.find((u) => u.id === tu.id) || tu)
+            : undefined;
+
+          return {
+            ...t,
+            assignee: matchedAssignee,
+            reporter: matchedReporter,
+            taggedUsers: matchedTaggedUsers,
+          };
+        });
+      }
+      return INITIAL_TASKS;
     } catch {
       return INITIAL_TASKS;
     }

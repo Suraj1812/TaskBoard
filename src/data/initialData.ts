@@ -1,12 +1,17 @@
 import { Column, Task, TaskLabel, User } from '../types/kanban';
 
+import leadEngineerAvatar from '../assets/images/avatar_lead_engineer_1791782868399.jpg';
+import productDesignerAvatar from '../assets/images/avatar_product_designer_1791782879990.jpg';
+import backendDevAvatar from '../assets/images/avatar_backend_dev_1791782890789.jpg';
+import qaSpecialistAvatar from '../assets/images/avatar_qa_specialist_1791782902485.jpg';
+
 export const INITIAL_USERS: User[] = [
   {
     id: 'user-1',
     name: 'Elena Rostova',
     role: 'Lead Full-Stack Engineer',
     email: 'elena.r@taskboard.internal',
-    avatarUrl: '/src/assets/images/avatar_lead_engineer_1791782868399.jpg',
+    avatarUrl: leadEngineerAvatar,
     initials: 'ER',
   },
   {
@@ -14,7 +19,7 @@ export const INITIAL_USERS: User[] = [
     name: 'Marcus Vance',
     role: 'Senior Product Designer',
     email: 'marcus.v@taskboard.internal',
-    avatarUrl: '/src/assets/images/avatar_product_designer_1791782879990.jpg',
+    avatarUrl: productDesignerAvatar,
     initials: 'MV',
   },
   {
@@ -22,7 +27,7 @@ export const INITIAL_USERS: User[] = [
     name: 'Aoi Tanaka',
     role: 'Cloud Backend Specialist',
     email: 'aoi.t@taskboard.internal',
-    avatarUrl: '/src/assets/images/avatar_backend_dev_1791782890789.jpg',
+    avatarUrl: backendDevAvatar,
     initials: 'AT',
   },
   {
@@ -30,7 +35,7 @@ export const INITIAL_USERS: User[] = [
     name: 'David Miller',
     role: 'QA Automation Architect',
     email: 'david.m@taskboard.internal',
-    avatarUrl: '/src/assets/images/avatar_qa_specialist_1791782902485.jpg',
+    avatarUrl: qaSpecialistAvatar,
     initials: 'DM',
   },
 ];
