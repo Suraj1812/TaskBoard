@@ -2,6 +2,7 @@ import React from 'react';
 import { Plus, Moon, Sun } from 'lucide-react';
 import { User, ViewMode } from '../types/kanban';
 import { UserAvatar } from './UserAvatar';
+import brandLogo from '../assets/images/logo.png';
 
 interface BoardHeaderProps {
   currentView: ViewMode;
@@ -21,16 +22,19 @@ export const BoardHeader: React.FC<BoardHeaderProps> = ({
   currentUser,
 }) => {
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between gap-4 px-4 sm:px-6 py-2.5 bg-white/90 dark:bg-[#0f172a]/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
-      {/* Zone 1: Brand Wordmark - Only TaskBoard as requested */}
-      <div className="flex items-center shrink-0">
-        <span className="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white select-none">
-          TaskBoard
+    <header className="sticky top-0 z-30 flex flex-wrap md:flex-nowrap items-center justify-between gap-x-4 gap-y-2 px-4 sm:px-6 py-2.5 bg-white/90 dark:bg-[#0f172a]/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+      {/* Zone 1: Brand Wordmark */}
+      <div className="flex items-center gap-2 shrink-0">
+        <span className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center overflow-hidden shrink-0" aria-hidden="true">
+          <img src={brandLogo} alt="" className="h-12 w-12 sm:h-14 sm:w-14 max-w-none object-contain" />
+        </span>
+        <span className="text-xl sm:text-[22px] font-bold leading-none tracking-[-0.035em] whitespace-nowrap select-none">
+          <span className="text-slate-800 dark:text-slate-100">Task</span><span className="text-blue-600 dark:text-blue-400">Board</span>
         </span>
       </div>
 
       {/* Zone 2: Navigation Links / Segmented View Switcher */}
-      <nav className="flex items-center p-1 bg-slate-100 dark:bg-slate-800/90 rounded-lg text-xs font-semibold shadow-2xs border border-slate-200/60 dark:border-slate-700/60">
+      <nav className="order-last md:order-none flex w-full md:w-auto items-center justify-center p-1 bg-slate-100 dark:bg-slate-800/90 rounded-lg text-xs font-semibold shadow-2xs border border-slate-200/60 dark:border-slate-700/60">
         <button
           type="button"
           onClick={() => onViewChange('board')}
